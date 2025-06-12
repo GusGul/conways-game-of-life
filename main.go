@@ -32,7 +32,13 @@ func main() {
 	fmt.Print(grid.Visualize(minX, maxX, minY, maxY))
 	fmt.Println()
 
-	if err := game.WriteLife106(os.Stdout, grid); err != nil {
+	outputFile, err := os.Create("output.life")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error creating output file: %v\n", err)
+		os.Exit(1)
+	}
+	defer outputFile.Close()
+	if err := game.WriteLife106(outputFile, grid); err != nil {
 		fmt.Fprintf(os.Stderr, "Error writing output: %v\n", err)
 		os.Exit(1)
 	}
