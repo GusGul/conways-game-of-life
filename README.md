@@ -2,6 +2,8 @@
 
 This is an implementation of Conway's Game of Life that works with 64-bit signed integer coordinates. The program reads the initial state in Life 1.06 format from standard input, runs a configurable number of generations of the simulation, and outputs the final state in Life 1.06 format to standard output.
 
+I approached the solution by first analyzing the requirements for supporting 64-bit signed integer coordinates and Life 1.06 format. I designed the core logic to use a sparse grid representation for efficiency, implemented the standard Game of Life rules, and ensured deterministic output. I iteratively tested the implementation using both classic and edge-case patterns, verifying correctness by comparing visualizations and output files. Automated tests were run with `go test ./...` to confirm the correctness of the core logic and I manually validated the input/output behavior using various Life 1.06 files.
+
 ## Features
 
 - Supports 64-bit signed integer coordinates
