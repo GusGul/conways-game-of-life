@@ -1,6 +1,6 @@
 # Conway's Game of Life
 
-This is an implementation of Conway's Game of Life that works with 64-bit signed integer coordinates. The program reads the initial state in Life 1.06 format from standard input, runs 10 generations of the simulation, and outputs the final state in Life 1.06 format to standard output.
+This is an implementation of Conway's Game of Life that works with 64-bit signed integer coordinates. The program reads the initial state in Life 1.06 format from standard input, runs a configurable number of generations of the simulation, and outputs the final state in Life 1.06 format to standard output.
 
 ## Features
 
@@ -12,6 +12,8 @@ This is an implementation of Conway's Game of Life that works with 64-bit signed
   3. Any live cell with more than three live neighbors dies (overpopulation)
   4. Any dead cell with exactly three live neighbors becomes a live cell (reproduction)
 - Reads and writes in Life 1.06 format
+- Deterministic output: cell coordinates are always sorted in the output
+- Adjustable grid visualization for classic patterns
 
 ## Building
 
@@ -56,7 +58,27 @@ Example input:
 
 ### Output Format
 
-The output is also in Life 1.06 format, showing the state after 10 generations.
+The output is also in Life 1.06 format, showing the state after the configured number of generations. The output is always sorted by X and then Y for determinism.
+
+## Classic Patterns
+
+You can easily test classic Game of Life patterns by providing their coordinates in Life 1.06 format. The grid size in the visualization can be adjusted in `main.go` to ensure the pattern fits well.
+
+### Example: Pentadecathlon
+```
+#Life 1.06
+0 -4
+0 -3
+-1 -2
+1 -2
+0 -1
+0 0
+0 1
+-1 2
+1 2
+0 3
+0 4
+```
 
 ## Testing
 
