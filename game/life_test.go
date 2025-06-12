@@ -18,7 +18,7 @@ func TestReadLife106(t *testing.T) {
 		t.Fatalf("Failed to read Life 1.06 format: %v", err)
 	}
 
-	expectedPoints := []Point{
+	expectedCells := []Cell{
 		{0, 1},
 		{1, 2},
 		{2, 0},
@@ -26,9 +26,9 @@ func TestReadLife106(t *testing.T) {
 		{2, 2},
 	}
 
-	for _, p := range expectedPoints {
+	for _, p := range expectedCells {
 		if !grid.IsAlive(p.X, p.Y) {
-			t.Errorf("Expected point (%d, %d) to be alive", p.X, p.Y)
+			t.Errorf("Expected cell (%d, %d) to be alive", p.X, p.Y)
 		}
 	}
 }
@@ -43,7 +43,7 @@ func TestNextGeneration(t *testing.T) {
 
 	nextGrid := grid.NextGeneration()
 
-	expectedAlive := map[Point]bool{
+	expectedAlive := map[Cell]bool{
 		{1, 0}: true,
 		{2, 1}: true,
 		{2, 2}: true,
@@ -75,21 +75,21 @@ func TestLargeCoordinates(t *testing.T) {
 		t.Fatalf("Failed to read Life 1.06 format with large coordinates: %v", err)
 	}
 
-	expectedPoints := []Point{
+	expectedCells := []Cell{
 		{-2000000000000, -2000000000000},
 		{-2000000000001, -2000000000001},
 		{-2000000000000, -2000000000001},
 	}
 
-	for _, p := range expectedPoints {
+	for _, p := range expectedCells {
 		if !grid.IsAlive(p.X, p.Y) {
-			t.Errorf("Expected point (%d, %d) to be alive", p.X, p.Y)
+			t.Errorf("Expected Cell (%d, %d) to be alive", p.X, p.Y)
 		}
 	}
 
 	nextGen := grid.NextGeneration()
 
-	expectedNextGen := map[Point]bool{
+	expectedNextGen := map[Cell]bool{
 		{-2000000000000, -2000000000000}: true,
 		{-2000000000001, -2000000000001}: true,
 		{-2000000000000, -2000000000001}: true,

@@ -4,30 +4,31 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"sort"
 	"strconv"
 	"strings"
 )
 
-type Point struct {
+type Cell struct {
 	X, Y int64
 }
 
 type Grid struct {
-	Cells map[Point]bool
+	Cells map[Cell]bool
 }
 
 func NewGrid() *Grid {
 	return &Grid{
-		Cells: make(map[Point]bool),
+		Cells: make(map[Cell]bool),
 	}
 }
 
 func (g *Grid) Set(x, y int64) {
-	g.Cells[Point{X: x, Y: y}] = true
+	g.Cells[Cell{X: x, Y: y}] = true
 }
 
 func (g *Grid) IsAlive(x, y int64) bool {
-	return g.Cells[Point{X: x, Y: y}]
+	return g.Cells[Cell{X: x, Y: y}]
 }
 
 func (g *Grid) CountLiveNeighbors(x, y int64) int {
@@ -46,13 +47,13 @@ func (g *Grid) CountLiveNeighbors(x, y int64) int {
 }
 
 func (g *Grid) NextGeneration() *Grid {
-	cellsToCheck := make(map[Point]bool)
+	cellsToCheck := make(map[Cell]bool)
 
 	for p := range g.Cells {
 		cellsToCheck[p] = true
 		for dx := int64(-1); dx <= 1; dx++ {
 			for dy := int64(-1); dy <= 1; dy++ {
-				neighbor := Point{X: p.X + dx, Y: p.Y + dy}
+				neighbor := Cell{X: p.X + dx, Y: p.Y + dy}
 				cellsToCheck[neighbor] = true
 			}
 		}
@@ -125,12 +126,19 @@ func WriteLife106(w io.Writer, grid *Grid) error {
 		return err
 	}
 
-	points := make([]Point, 0, len(grid.Cells))
+	cells := make([]Cell, 0, len(grid.Cells))
 	for p := range grid.Cells {
-		points = append(points, p)
+		cells = append(cells, p)
 	}
 
-	for _, p := range points {
+	sort.Slice(cells, func(i, j int) bool {
+		if cells[i].X == cells[j].X {
+			return cells[i].Y < cells[j].Y
+		}
+		return cells[i].X < cells[j].X
+	})
+
+	for _, p := range cells {
 		if _, err := fmt.Fprintf(w, "%d %d\n", p.X, p.Y); err != nil {
 			return err
 		}
@@ -144,9 +152,9 @@ func (g *Grid) Visualize(minX, maxX, minY, maxY int64) string {
 	for y := minY; y <= maxY; y++ {
 		for x := minX; x <= maxX; x++ {
 			if g.IsAlive(x, y) {
-				sb.WriteRune('O')
+				sb.WriteRune('🟩')
 			} else {
-				sb.WriteRune('.')
+				sb.WriteRune('🟥')
 			}
 		}
 		sb.WriteRune('\n')

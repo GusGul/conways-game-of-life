@@ -15,16 +15,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	minX, maxX := int64(0), int64(5)
-	minY, maxY := int64(0), int64(5)
+	minX, maxX := int64(-7), int64(7)
+	minY, maxY := int64(-7), int64(7)
 
-	for i := 0; i < 10; i++ {
+	maxGens := 10
+
+	for i := 0; i < maxGens; i++ {
 		fmt.Printf("Generation %d:\n", i)
 		fmt.Print(grid.Visualize(minX, maxX, minY, maxY))
 		fmt.Println()
-		time.Sleep(1 * time.Second)
+		time.Sleep(500 * time.Millisecond)
 		grid = grid.NextGeneration()
 	}
+
+	fmt.Printf("Generation %d:\n", maxGens)
+	fmt.Print(grid.Visualize(minX, maxX, minY, maxY))
+	fmt.Println()
 
 	if err := game.WriteLife106(os.Stdout, grid); err != nil {
 		fmt.Fprintf(os.Stderr, "Error writing output: %v\n", err)
