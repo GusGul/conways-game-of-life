@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"conways-game-of-life/game"
+	"github.com/GusGul/conways-game-of-life/game"
 )
 
 func main() {
